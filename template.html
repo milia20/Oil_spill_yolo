@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>Отчет</title>
+	<style>
+		img {
+			width: 100%
+		}
+		p {
+			width: 800px;
+			margin: auto;
+			font-family:  Arial, sans-serif;
+			overflow: auto;
+			text-align: center;
+		}
+		text {
+			font-family:  Arial, sans-serif;
+		}
+		h2
+		{
+			font-family:  Arial, sans-serif;
+			text-align: center;
+			margin-bottom: 20px;
+		}
+		.resizable {
+                        resize: horizontal;
+                        overflow: auto;
+		}
+	</style>
+	<script>
+		var setImgWidth = function() {
+			var input = document.getElementById("inputWidth").value;
+			if(!isNaN(input) && input >= 300) {
+				var img = document.getElementsByClassName("resizable");
+				for(i = 0; i < img.length; ++i) {
+					img[i].style.width = input + "px";
+				}
+			}
+		};
+		window.onload = function() {
+			document.getElementById("inputWidth").onchange = setImgWidth;
+		};
+	</script>
+</head>
+<body>
+
+<h2>Отчет<br/>
+о поиске нефтяных загрязнений на спутниковых снимках<br/>
+с использованием искусственного интеллекта YOLOv5<br/></h2>
+
+<text>Начало: ${time_start} <br/></text>
+<text>Конец: ${time_now} <br/><br/></text>
+<text>Обработано снимков: ${image_count} <br/></text>
+<text>Обнаружено снимков с нефтяными загрязнениями: ${image_oil_count} <br/><br/></text>
+
+<p id="imgWidth" style="resize:none">
+	Ширина снимков <input id="inputWidth" type="number" min=300 step=50 value=${width}>
+</p>
+
+% for i in range(len(img_list)):
+	<p class="resizable"><screen><img src="${img_list[i]}" alt="${img_list[i]}"><br/></screen></p>
+
+        <p>${img_list[i]}<br/>
+        Время съемки: ${info[i][1]}<br/>
+        Координаты: ${info[i][0]}<br/><br/></p>
+% endfor
+
+</body>
+
+</html>
